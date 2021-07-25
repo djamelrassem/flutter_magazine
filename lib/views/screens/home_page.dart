@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Alignment position = Alignment(0, 0);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,8 +71,43 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 360,
+              GestureDetector(
+                onHorizontalDragEnd: (onEndDrag) {
+                  print(position);
+                  if (false) {
+                  } else {
+                    setState(() {
+                      position = Alignment.center;
+                    });
+                  }
+                },
+                onHorizontalDragUpdate: (onDragDetatils) {
+                  setState(() {
+                    position = Alignment(
+                        (onDragDetatils.localPosition.dx /
+                                    MediaQuery.of(context).size.width) *
+                                2 -
+                            1,
+                        (onDragDetatils.localPosition.dy / 360) * 2 - 1);
+                  });
+                },
+                child: Container(
+                  color: Colors.red,
+                  height: 360,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: position,
+                        child: Container(
+                          height: 90,
+                          width: 90,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
               Padding(
                 padding:
