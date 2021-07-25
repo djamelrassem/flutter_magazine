@@ -1,6 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+double abs(double num) {
+  if (num < 0) {
+    return -1 * num;
+  } else {
+    return num;
+  }
+}
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -8,8 +16,25 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  late AnimationController swipeController;
+  late Animation swipeAnimation;
   Alignment position = Alignment(0, 0);
+
+  @override
+  initState() {
+    super.initState();
+    swipeController =
+        AnimationController(duration: Duration(milliseconds: 300), vsync: this)
+          ..addListener(() {
+            setState(() {
+              if (!swipeController.isDismissed) {
+                position = swipeAnimation.value;
+              }
+            });
+          });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -73,12 +98,18 @@ class _HomePageState extends State<HomePage> {
               ),
               GestureDetector(
                 onHorizontalDragEnd: (onEndDrag) {
-                  print(position);
-                  if (false) {
-                  } else {
+                  if (abs(position.x) < 0.3 && abs(position.y) < 0.3) {
                     setState(() {
                       position = Alignment.center;
                     });
+                  } else {
+                    swipeAnimation = Tween(
+                            begin: position,
+                            end: Alignment(position.x > 0 ? 10 : -10, 0))
+                        .animate(swipeController);
+                    swipeController
+                        .forward()
+                        .then((value) => {swipeController.reset()});
                   }
                 },
                 onHorizontalDragUpdate: (onDragDetatils) {
@@ -92,7 +123,6 @@ class _HomePageState extends State<HomePage> {
                   });
                 },
                 child: Container(
-                  color: Colors.red,
                   height: 360,
                   width: MediaQuery.of(context).size.width,
                   child: Stack(
@@ -100,8 +130,8 @@ class _HomePageState extends State<HomePage> {
                       Align(
                         alignment: position,
                         child: Container(
-                          height: 90,
-                          width: 90,
+                          height: 300,
+                          width: MediaQuery.of(context).size.width - 200,
                           color: Colors.white,
                         ),
                       )
