@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +21,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController swipeController;
   late Animation swipeAnimation;
+  late AnimationController rotateController;
+  late Animation rotateAnimation;
   Alignment position = Alignment(0, 0);
+  double rotation = 0;
 
   @override
   initState() {
@@ -27,11 +32,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     swipeController =
         AnimationController(duration: Duration(milliseconds: 300), vsync: this)
           ..addListener(() {
-            setState(() {
-              if (!swipeController.isDismissed) {
+            if (!swipeController.isDismissed) {
+              setState(() {
                 position = swipeAnimation.value;
-              }
-            });
+              });
+            }
+          });
+    rotateController =
+        AnimationController(duration: Duration(milliseconds: 300), vsync: this)
+          ..addListener(() {
+            if (!rotateController.isDismissed) {
+              setState(() {
+                rotation = rotateAnimation.value;
+              });
+            }
           });
   }
 
@@ -107,6 +121,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             begin: position,
                             end: Alignment(position.x > 0 ? 10 : -10, 0))
                         .animate(swipeController);
+                    rotateAnimation =
+                        Tween(begin: 0, end: position.x > 0 ? pi / 8 : -pi / 8)
+                            .animate(rotateController);
+                    rotateController
+                        .forward()
+                        .then((value) => {rotateController.reset()});
                     swipeController
                         .forward()
                         .then((value) => {swipeController.reset()});
@@ -129,10 +149,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     children: [
                       Align(
                         alignment: position,
-                        child: Container(
-                          height: 300,
-                          width: MediaQuery.of(context).size.width - 200,
-                          color: Colors.white,
+                        child: Transform.rotate(
+                          angle: rotation,
+                          child: Container(
+                            height: 320,
+                            width: MediaQuery.of(context).size.width - 128,
+                            color: Colors.white,
+                          ),
                         ),
                       )
                     ],
