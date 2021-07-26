@@ -44,10 +44,10 @@ class _MagazineSwiperState extends State<MagazineSwiper>
                 position = swipeAnimation.value;
               });
             } else {
+              widget.onEndDismiss();
               setState(() {
                 position = Alignment.center;
               });
-              widget.onEndDismiss();
             }
           });
     rotateController =
