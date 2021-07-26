@@ -11,8 +11,14 @@ double abs(double num) {
 
 class MagazineSwiper extends StatefulWidget {
   final Color? color;
-
-  const MagazineSwiper({Key? key, this.color}) : super(key: key);
+  final Function onEndDrag;
+  final Function onEndDismiss;
+  const MagazineSwiper(
+      {Key? key,
+      this.color,
+      required this.onEndDrag,
+      required this.onEndDismiss})
+      : super(key: key);
 
   @override
   _MagazineSwiperState createState() => _MagazineSwiperState();
@@ -23,9 +29,9 @@ class _MagazineSwiperState extends State<MagazineSwiper>
   late AnimationController swipeController;
   late Animation swipeAnimation;
   late AnimationController rotateController;
-  late Animation rotateAnimation;
+  late Animation<double> rotateAnimation;
   Alignment position = Alignment(0, 0);
-  double rotation = 0;
+  double rotation = 0.0;
 
   @override
   initState() {
@@ -37,12 +43,21 @@ class _MagazineSwiperState extends State<MagazineSwiper>
               setState(() {
                 position = swipeAnimation.value;
               });
+            } else {
+              setState(() {
+                position = Alignment.center;
+              });
+              widget.onEndDismiss();
             }
           });
     rotateController =
         AnimationController(duration: Duration(milliseconds: 300), vsync: this)
           ..addListener(() {
             if (!rotateController.isDismissed) {
+              setState(() {
+                rotation = rotateAnimation.value;
+              });
+            } else {
               setState(() {
                 rotation = rotateAnimation.value;
               });
@@ -60,15 +75,17 @@ class _MagazineSwiperState extends State<MagazineSwiper>
           });
         } else {
           swipeAnimation = Tween(
-                  begin: position, end: Alignment(position.x > 0 ? 10 : -10, 0))
+                  begin: position,
+                  end: Alignment(position.x > 0 ? 10.0 : -10.0, 0))
               .animate(swipeController);
           rotateAnimation =
-              Tween(begin: 0, end: position.x > 0 ? pi / 8 : -pi / 8)
+              Tween(begin: 0.0, end: position.x > 0 ? pi / 8 : -pi / 8)
                   .animate(rotateController);
           rotateController
               .forward()
               .then((value) => {rotateController.reset()});
           swipeController.forward().then((value) => {swipeController.reset()});
+          widget.onEndDrag();
         }
       },
       onHorizontalDragUpdate: (onDragDetatils) {

@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:magazine/views/screens/widgets/magazine_swiper.dart';
+import 'package:magazine/views/screens/widgets/magazinesList.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -68,23 +66,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              Stack(
-                children: [
-                  Transform.rotate(
-                    alignment: Alignment.bottomCenter,
-                    angle: pi / 12,
-                    child: MagazineSwiper(
-                      color: Colors.red,
-                    ),
-                  ),
-                  MagazineSwiper(
-                    color: Colors.blue,
-                  ),
-                  MagazineSwiper(
-                    color: Colors.yellow,
-                  ),
-                ],
-              ),
+              MagazinesList(),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 64),
