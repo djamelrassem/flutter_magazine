@@ -38,13 +38,15 @@ class _MagazineSwiperState extends State<MagazineSwiper>
     super.initState();
     swipeController =
         AnimationController(duration: Duration(milliseconds: 300), vsync: this)
-          ..addListener(() {
+          ..addListener(() async {
             if (!swipeController.isDismissed) {
               setState(() {
                 position = swipeAnimation.value;
               });
             } else {
               widget.onEndDismiss();
+              //A delayed 10 milliseconds to hide rendering effect on the widget
+              await Future.delayed(Duration(milliseconds: 10));
               setState(() {
                 position = Alignment.center;
               });

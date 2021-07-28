@@ -31,8 +31,8 @@ class _MagazinesListState extends State<MagazinesList>
         AnimationController(duration: Duration(milliseconds: 300), vsync: this)
           ..addListener(() {
             setState(() {
-              resizer = sizeAnimation.value;
               if (!orderRotationController.isDismissed) {
+                resizer = sizeAnimation.value;
                 switch (swipe) {
                   case 0:
                     firstElementRotation =
@@ -100,6 +100,7 @@ class _MagazinesListState extends State<MagazinesList>
           child: MagazineSwiper(
             onEndDrag: () {},
             onEndDismiss: () {
+              index = 3;
               onEndDismiss();
             },
             color: Colors.red,
@@ -115,6 +116,7 @@ class _MagazinesListState extends State<MagazinesList>
             onEndDrag: () {},
             color: Colors.white,
             onEndDismiss: () {
+              index = 2;
               onEndDismiss();
             },
           ),
@@ -127,6 +129,7 @@ class _MagazinesListState extends State<MagazinesList>
           angle: firstElementRotation,
           child: MagazineSwiper(
             onEndDismiss: () {
+              index = 1;
               onEndDismiss();
             },
             onEndDrag: () {},
