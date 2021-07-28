@@ -129,7 +129,6 @@ class HomePage extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          enableFeedback: false,
           items: [
             BottomNavigationBarItem(
               label: '',
