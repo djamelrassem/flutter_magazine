@@ -13,11 +13,16 @@ class MagazineSwiper extends StatefulWidget {
   final Color? color;
   final Function onEndDrag;
   final Function onEndDismiss;
+  final Widget? child;
+  final double height, width;
   const MagazineSwiper(
       {Key? key,
       this.color,
       required this.onEndDrag,
-      required this.onEndDismiss})
+      required this.onEndDismiss,
+      this.child,
+      required this.height,
+      required this.width})
       : super(key: key);
 
   @override
@@ -77,8 +82,7 @@ class _MagazineSwiperState extends State<MagazineSwiper>
           });
         } else {
           swipeAnimation = Tween(
-                  begin: position,
-                  end: Alignment(position.x > 0 ? 10.0 : -10.0, 0))
+                  begin: position, end: Alignment(position.x > 0 ? 5 : -5.0, 0))
               .animate(swipeController);
           rotateAnimation =
               Tween(begin: 0.0, end: position.x > 0 ? pi / 8 : -pi / 8)
@@ -93,27 +97,20 @@ class _MagazineSwiperState extends State<MagazineSwiper>
       onHorizontalDragUpdate: (onDragDetatils) {
         setState(() {
           position = Alignment(
-              (onDragDetatils.localPosition.dx /
-                          MediaQuery.of(context).size.width) *
-                      2 -
-                  1,
-              (onDragDetatils.localPosition.dy / 360) * 2 - 1);
+              (onDragDetatils.localPosition.dx / widget.width) * 2 - 1,
+              (onDragDetatils.localPosition.dy / widget.height) * 2 - 1);
         });
       },
       child: Container(
-        height: MediaQuery.of(context).size.height / 2.3,
-        width: MediaQuery.of(context).size.width,
+        height: widget.height,
+        width: widget.width,
         child: Stack(
           children: [
             Align(
               alignment: position,
               child: Transform.rotate(
                 angle: rotation,
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 2.8,
-                  width: MediaQuery.of(context).size.width - 128,
-                  color: widget.color,
-                ),
+                child: widget.child,
               ),
             )
           ],
