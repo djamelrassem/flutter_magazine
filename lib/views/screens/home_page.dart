@@ -96,24 +96,24 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: Container(
-                              color: Colors.brown,
+                            child: Image(
+                              image: AssetImage('assets/1.jpg'),
                             ),
                           ),
                           SizedBox(
                             width: 20,
                           ),
                           Expanded(
-                            child: Container(
-                              color: Colors.brown,
+                            child: Image(
+                              image: AssetImage('assets/2.jpg'),
                             ),
                           ),
                           SizedBox(
                             width: 20,
                           ),
                           Expanded(
-                            child: Container(
-                              color: Colors.brown,
+                            child: Image(
+                              image: AssetImage('assets/3.jpg'),
                             ),
                           )
                         ],
