@@ -99,7 +99,7 @@ class _MagazineSwiperState extends State<MagazineSwiper>
         });
       },
       child: Container(
-        height: 360,
+        height: MediaQuery.of(context).size.height / 2.3,
         width: MediaQuery.of(context).size.width,
         child: Stack(
           children: [
@@ -108,7 +108,7 @@ class _MagazineSwiperState extends State<MagazineSwiper>
               child: Transform.rotate(
                 angle: rotation,
                 child: Container(
-                  height: 320,
+                  height: MediaQuery.of(context).size.height / 2.8,
                   width: MediaQuery.of(context).size.width - 128,
                   color: widget.color,
                 ),
