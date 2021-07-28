@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
               MagazinesList(),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 64),
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
                 child: Column(
                   children: [
                     Row(

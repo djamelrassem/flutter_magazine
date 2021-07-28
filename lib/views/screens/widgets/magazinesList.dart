@@ -28,7 +28,7 @@ class _MagazinesListState extends State<MagazinesList>
   void initState() {
     super.initState();
     orderRotationController =
-        AnimationController(duration: Duration(milliseconds: 300), vsync: this)
+        AnimationController(duration: Duration(milliseconds: 350), vsync: this)
           ..addListener(() {
             setState(() {
               if (!orderRotationController.isDismissed) {
@@ -77,7 +77,7 @@ class _MagazinesListState extends State<MagazinesList>
             });
           });
     orderRotationAnimation =
-        Tween(begin: 0.0, end: pi / 12).animate(orderRotationController);
+        Tween(begin: 0.0, end: pi / 16).animate(orderRotationController);
     sizeAnimation =
         Tween(begin: 0.0, end: 1.0).animate(orderRotationController);
   }
@@ -98,13 +98,21 @@ class _MagazinesListState extends State<MagazinesList>
           alignment: Alignment.bottomCenter,
           angle: thirElementRotation,
           child: MagazineSwiper(
-            onEndDrag: () {},
-            onEndDismiss: () {
-              index = 3;
-              onEndDismiss();
-            },
-            color: Colors.red,
-          ),
+              height: MediaQuery.of(context).size.height / 2.5 + 64,
+              width: MediaQuery.of(context).size.width,
+              onEndDrag: () {},
+              onEndDismiss: () {
+                index = 3;
+                onEndDismiss();
+              },
+              color: Colors.red,
+              child: Image(
+                filterQuality: FilterQuality.low,
+                height: MediaQuery.of(context).size.height / 2.5,
+                width: MediaQuery.of(context).size.height / 3.2,
+                fit: BoxFit.cover,
+                image: AssetImage("assets/1.jpg"),
+              )),
         ),
       ),
       Transform.scale(
@@ -113,6 +121,15 @@ class _MagazinesListState extends State<MagazinesList>
           alignment: Alignment.bottomCenter,
           angle: secondElementRotation,
           child: MagazineSwiper(
+            height: MediaQuery.of(context).size.height / 2.5 + 64,
+            width: MediaQuery.of(context).size.width,
+            child: Image(
+              filterQuality: FilterQuality.low,
+              height: MediaQuery.of(context).size.height / 2.5,
+              width: MediaQuery.of(context).size.height / 3.2,
+              fit: BoxFit.cover,
+              image: AssetImage("assets/3.jpg"),
+            ),
             onEndDrag: () {},
             color: Colors.white,
             onEndDismiss: () {
@@ -128,6 +145,15 @@ class _MagazinesListState extends State<MagazinesList>
           alignment: Alignment.bottomCenter,
           angle: firstElementRotation,
           child: MagazineSwiper(
+            height: MediaQuery.of(context).size.height / 2.5 + 64,
+            width: MediaQuery.of(context).size.width,
+            child: Image(
+              filterQuality: FilterQuality.low,
+              height: MediaQuery.of(context).size.height / 2.5,
+              width: MediaQuery.of(context).size.height / 3.2,
+              fit: BoxFit.cover,
+              image: AssetImage("assets/2.jpg"),
+            ),
             onEndDismiss: () {
               index = 1;
               onEndDismiss();
