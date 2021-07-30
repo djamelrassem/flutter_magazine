@@ -79,9 +79,9 @@ class _MagazinesListState extends State<MagazinesList>
 
   onEndDismiss() {
     swipe = (swipe + 1) % 3;
-    orderRotationController
-        .forward()
-        .then((value) => {orderRotationController.reset()});
+    orderRotationController.forward().then((value) {
+      orderRotationController.reset();
+    });
   }
 
   @override
@@ -108,9 +108,52 @@ class _MagazinesListState extends State<MagazinesList>
     );
 
     return Stack(children: [
-      widgets[(swipe + 1) % 3],
-      widgets[(swipe + 3) % 3],
-      widgets[(swipe + 2) % 3],
+      widgets[(swipe + 1) % widget.children.length],
+      widgets[(swipe + 3) % widget.children.length],
+      widgets[(swipe + 2) % widget.children.length],
     ]);
+    /* Stack(
+      children: [
+        Transform.scale(
+          scale: 1,
+          child: Transform.rotate(
+            alignment: Alignment.bottomCenter,
+            angle: rotations[(swipe + 1) % 3],
+            child: MagazineSwiper(
+                height: MediaQuery.of(context).size.height / 2.5 + 64,
+                width: MediaQuery.of(context).size.width,
+                onEndDrag: () {},
+                onEndDismiss: () {
+                  onEndDismiss();
+                },
+                child: widget.children[(swipe + 1) % widget.children.length]),
+          ),
+        ),
+        Transform.rotate(
+          alignment: Alignment.bottomCenter,
+          angle: rotations[(swipe + 3) % 3],
+          child: MagazineSwiper(
+              height: MediaQuery.of(context).size.height / 2.5 + 64,
+              width: MediaQuery.of(context).size.width,
+              onEndDrag: () {},
+              onEndDismiss: () {
+                onEndDismiss();
+              },
+              child: widget.children[(swipe + 3) % widget.children.length]),
+        ),
+        Transform.rotate(
+          alignment: Alignment.bottomCenter,
+          angle: rotations[(swipe + 2) % 3],
+          child: MagazineSwiper(
+              height: MediaQuery.of(context).size.height / 2.5 + 64,
+              width: MediaQuery.of(context).size.width,
+              onEndDrag: () {},
+              onEndDismiss: () {
+                onEndDismiss();
+              },
+              child: widget.children[(swipe + 2) % widget.children.length]),
+        )
+      ],
+    ); */
   }
 }
