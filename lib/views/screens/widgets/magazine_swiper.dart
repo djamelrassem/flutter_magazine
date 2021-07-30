@@ -50,8 +50,8 @@ class _MagazineSwiperState extends State<MagazineSwiper>
               });
             } else {
               widget.onEndDismiss();
-              //A delayed 10 milliseconds to hide rendering effect on the widget
-              await Future.delayed(Duration(milliseconds: 10));
+              //A delayed 3 milliseconds to hide rendering effect on the widget
+              await Future.delayed(Duration(milliseconds: 3));
               setState(() {
                 position = Alignment.center;
               });
