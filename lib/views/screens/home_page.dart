@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:magazine/views/magazine_detail_page.dart';
 import 'package:magazine/views/screens/widgets/magazinesList.dart';
 
 class HomePage extends StatelessWidget {
@@ -68,27 +69,68 @@ class HomePage extends StatelessWidget {
               ),
               MagazinesList(
                 children: [
-                  Image(
-                    filterQuality: FilterQuality.low,
-                    height: MediaQuery.of(context).size.height / 2.5,
-                    width: MediaQuery.of(context).size.height / 3.2,
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/1.jpg"),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 700),
+                              pageBuilder: (context, _, __) =>
+                                  MagazineDetailPage(
+                                    image: '1',
+                                  )));
+                    },
+                    child: Hero(
+                      tag: '1',
+                      child: Image(
+                        filterQuality: FilterQuality.low,
+                        height: MediaQuery.of(context).size.height / 2.5,
+                        width: MediaQuery.of(context).size.height / 3.2,
+                        fit: BoxFit.cover,
+                        image: AssetImage("assets/1.jpg"),
+                      ),
+                    ),
                   ),
-                  Image(
-                    filterQuality: FilterQuality.low,
-                    height: MediaQuery.of(context).size.height / 2.5,
-                    width: MediaQuery.of(context).size.height / 3.2,
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/2.jpg"),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 700),
+                              pageBuilder: (context, _, __) =>
+                                  MagazineDetailPage(image: '2')));
+                    },
+                    child: Hero(
+                      tag: '2',
+                      child: Image(
+                        filterQuality: FilterQuality.low,
+                        height: MediaQuery.of(context).size.height / 2.5,
+                        width: MediaQuery.of(context).size.height / 3.2,
+                        fit: BoxFit.cover,
+                        image: AssetImage("assets/2.jpg"),
+                      ),
+                    ),
                   ),
-                  Image(
-                    filterQuality: FilterQuality.low,
-                    height: MediaQuery.of(context).size.height / 2.5,
-                    width: MediaQuery.of(context).size.height / 3.2,
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/3.jpg"),
-                  )
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 700),
+                              pageBuilder: (context, _, __) =>
+                                  MagazineDetailPage(image: '3')));
+                    },
+                    child: Hero(
+                      tag: '3',
+                      child: Image(
+                        filterQuality: FilterQuality.low,
+                        height: MediaQuery.of(context).size.height / 2.5,
+                        width: MediaQuery.of(context).size.height / 3.2,
+                        fit: BoxFit.cover,
+                        image: AssetImage("assets/3.jpg"),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Padding(
