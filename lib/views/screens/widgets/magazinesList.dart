@@ -6,8 +6,10 @@ import 'package:magazine/views/screens/widgets/magazine_swiper.dart';
 double orderRotation = 0.0;
 
 class MagazinesList extends StatefulWidget {
+  final List<Widget> children;
   const MagazinesList({
     Key? key,
+    required this.children,
   }) : super(key: key);
   @override
   _MagazinesListState createState() => _MagazinesListState();
@@ -18,9 +20,8 @@ class _MagazinesListState extends State<MagazinesList>
   late AnimationController orderRotationController;
   late Animation<double> orderRotationAnimation;
   late Animation<double> sizeAnimation;
-  double firstElementRotation = 0;
-  double secondElementRotation = pi / 16;
-  double thirElementRotation = -pi / 16;
+
+  List<double> rotations = [0, pi / 16, -pi / 16];
   int swipe = 0;
   int index = 0;
   double resizer = 0.0;
@@ -35,42 +36,36 @@ class _MagazinesListState extends State<MagazinesList>
                 resizer = sizeAnimation.value;
                 switch (swipe) {
                   case 0:
-                    firstElementRotation =
-                        -pi / 16 + orderRotationAnimation.value;
-                    secondElementRotation = orderRotationAnimation.value;
-                    thirElementRotation =
-                        pi / 16 - orderRotationAnimation.value * 2;
+                    rotations[0] = -pi / 16 + orderRotationAnimation.value;
+                    rotations[1] = orderRotationAnimation.value;
+                    rotations[2] = pi / 16 - orderRotationAnimation.value * 2;
 
                     break;
                   case 1:
-                    thirElementRotation =
-                        -pi / 16 + orderRotationAnimation.value;
-                    secondElementRotation =
-                        pi / 16 - orderRotationAnimation.value * 2;
-                    firstElementRotation = orderRotationAnimation.value;
+                    rotations[2] = -pi / 16 + orderRotationAnimation.value;
+                    rotations[1] = pi / 16 - orderRotationAnimation.value * 2;
+                    rotations[0] = orderRotationAnimation.value;
 
                     break;
                   case 2:
-                    secondElementRotation =
-                        (-pi / 16) + orderRotationAnimation.value;
-                    thirElementRotation = orderRotationAnimation.value;
-                    firstElementRotation =
-                        pi / 16 - orderRotationAnimation.value * 2;
+                    rotations[1] = (-pi / 16) + orderRotationAnimation.value;
+                    rotations[2] = orderRotationAnimation.value;
+                    rotations[0] = pi / 16 - orderRotationAnimation.value * 2;
 
                     break;
                 }
               } else {
                 switch (swipe) {
                   case 0:
-                    firstElementRotation = 0;
+                    rotations[0] = 0;
 
                     break;
                   case 1:
-                    thirElementRotation = 0;
+                    rotations[2] = 0;
 
                     break;
                   case 2:
-                    secondElementRotation = 0;
+                    rotations[1] = 0;
                     break;
                 }
               }
@@ -91,83 +86,31 @@ class _MagazinesListState extends State<MagazinesList>
 
   @override
   Widget build(BuildContext context) {
-    late List<Widget> children = [
-      Transform.scale(
-        scale: index == 3 ? resizer : 1,
+    List<Widget> widgets = List.generate(
+      widget.children.length,
+      (indexer) => Transform.scale(
+        scale: index == widget.children.length - indexer ? resizer : 1,
         child: Transform.rotate(
           alignment: Alignment.bottomCenter,
-          angle: thirElementRotation,
+          angle: rotations[2 - indexer],
           child: MagazineSwiper(
               height: MediaQuery.of(context).size.height / 2.5 + 64,
               width: MediaQuery.of(context).size.width,
               onEndDrag: () {},
               onEndDismiss: () {
-                index = 3;
+                index = widget.children.length - indexer;
                 onEndDismiss();
               },
               color: Colors.red,
-              child: Image(
-                filterQuality: FilterQuality.low,
-                height: MediaQuery.of(context).size.height / 2.5,
-                width: MediaQuery.of(context).size.height / 3.2,
-                fit: BoxFit.cover,
-                image: AssetImage("assets/1.jpg"),
-              )),
+              child: widget.children[indexer]),
         ),
       ),
-      Transform.scale(
-        scale: index == 2 ? resizer : 1,
-        child: Transform.rotate(
-          alignment: Alignment.bottomCenter,
-          angle: secondElementRotation,
-          child: MagazineSwiper(
-            height: MediaQuery.of(context).size.height / 2.5 + 64,
-            width: MediaQuery.of(context).size.width,
-            child: Image(
-              filterQuality: FilterQuality.low,
-              height: MediaQuery.of(context).size.height / 2.5,
-              width: MediaQuery.of(context).size.height / 3.2,
-              fit: BoxFit.cover,
-              image: AssetImage("assets/3.jpg"),
-            ),
-            onEndDrag: () {},
-            color: Colors.white,
-            onEndDismiss: () {
-              index = 2;
-              onEndDismiss();
-            },
-          ),
-        ),
-      ),
-      Transform.scale(
-        scale: index == 1 ? resizer : 1,
-        child: Transform.rotate(
-          alignment: Alignment.bottomCenter,
-          angle: firstElementRotation,
-          child: MagazineSwiper(
-            height: MediaQuery.of(context).size.height / 2.5 + 64,
-            width: MediaQuery.of(context).size.width,
-            child: Image(
-              filterQuality: FilterQuality.low,
-              height: MediaQuery.of(context).size.height / 2.5,
-              width: MediaQuery.of(context).size.height / 3.2,
-              fit: BoxFit.cover,
-              image: AssetImage("assets/2.jpg"),
-            ),
-            onEndDismiss: () {
-              index = 1;
-              onEndDismiss();
-            },
-            onEndDrag: () {},
-            color: Colors.blue,
-          ),
-        ),
-      ),
-    ];
+    );
+
     return Stack(children: [
-      children[(swipe + 1) % 3],
-      children[(swipe + 3) % 3],
-      children[(swipe + 2) % 3],
+      widgets[(swipe + 1) % 3],
+      widgets[(swipe + 3) % 3],
+      widgets[(swipe + 2) % 3],
     ]);
   }
 }

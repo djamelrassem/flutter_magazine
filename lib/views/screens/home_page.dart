@@ -66,7 +66,31 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              MagazinesList(),
+              MagazinesList(
+                children: [
+                  Image(
+                    filterQuality: FilterQuality.low,
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    width: MediaQuery.of(context).size.height / 3.2,
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/1.jpg"),
+                  ),
+                  Image(
+                    filterQuality: FilterQuality.low,
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    width: MediaQuery.of(context).size.height / 3.2,
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/2.jpg"),
+                  ),
+                  Image(
+                    filterQuality: FilterQuality.low,
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    width: MediaQuery.of(context).size.height / 3.2,
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/3.jpg"),
+                  )
+                ],
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
